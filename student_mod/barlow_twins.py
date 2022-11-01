@@ -8,6 +8,7 @@ from functools import partial
 from student_mod.loss import BarlowTwinsLoss
 from torch import Tensor
 from torchmetrics.functional import accuracy
+from student_mod.model import model_student_mod
 
 
 class ProjectionHead(nn.Module):
@@ -37,19 +38,19 @@ def linear_warmup_decay(warmup_steps):
 class BarlowTwins(LightningModule):
     def __init__(
         self,
-        encoder,
+        # encoder,
         encoder_out_dim,
         num_training_samples,
         batch_size,
         lambda_coeff=5e-3,
         z_dim=128,
         learning_rate=1e-4,
-        warmup_epochs=10,
+        warmup_epochs=5,
         max_epochs=200,
     ):
         super().__init__()
 
-        self.encoder = encoder
+        self.encoder = model_student_mod
         self.projection_head = ProjectionHead(input_dim=encoder_out_dim, hidden_dim=encoder_out_dim, output_dim=z_dim)
         self.loss_fn = BarlowTwinsLoss(batch_size=batch_size, lambda_coeff=lambda_coeff, z_dim=z_dim)
 
