@@ -12,6 +12,7 @@ num_workers = 0  # to run notebook on CPU
 max_epochs = 200
 z_dim = 128
 
+data_dir_train = "data/CelebA/img_align_celeba"
 # path_to_train = "frame_video_sau"
 
 

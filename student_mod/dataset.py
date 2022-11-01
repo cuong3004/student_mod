@@ -1,8 +1,8 @@
 import torch
-import lightly
+# import lightly
 from torchvision import datasets, transforms
 from student_mod.transform import BarlowTwinsTransform
-from ghostpes.config import *
+from student_mod.config import *
 from natsort import natsorted
 from torch.utils.data import Dataset, DataLoader
 import os
@@ -51,6 +51,7 @@ class CelebADataset(Dataset):
         img_path = os.path.join(self.root_dir, self.image_names[idx])
         # Load image and convert it to RGB
         img = Image.open(img_path).convert('RGB')
+        img = img.resize((300,300))
         # Apply transformations to the image
         if self.transform:
             img = self.transform(img)
@@ -68,7 +69,8 @@ def normalization():
 train_transform = BarlowTwinsTransform(
     train=True, input_height=32, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
 )
-train_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", transform=train_transform)
+
+train_dataset = CelebADataset(root_dir=data_dir_train, transform=train_transform)
 
 # val_transform = BarlowTwinsTransform(
 #     train=False, input_height=32, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
@@ -77,4 +79,3 @@ train_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", transform
 # val_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", train=False, download=True, transform=train_transform)
 
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, drop_last=True)
-# val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, drop_last=True)
