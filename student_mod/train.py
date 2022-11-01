@@ -4,7 +4,7 @@ from student_mod.config import *
 import torch 
 from pytorch_lightning import Trainer
 from student_mod.model import model_student_mod
-# from student_mod.dataset import *
+from student_mod.dataset import *
 import argparse
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.callbacks import LearningRateMonitor
