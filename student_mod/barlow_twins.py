@@ -85,16 +85,12 @@ class BarlowTwins(LightningModule):
 
         warmup_steps = self.train_iters_per_epoch * self.warmup_epochs
 
-        scheduler = {
-            "scheduler": torch.optim.lr_scheduler.LambdaLR(
-                optimizer,
-                linear_warmup_decay(warmup_steps),
-            ),
-            "interval": "step",
-            "frequency": 1,
+        lr_scheduler = {
+            'scheduler': torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=5, eta_min=0),
+            'name': 'my_learning_rate',
         }
 
-        return [optimizer], [scheduler]
+        return [optimizer], [lr_scheduler]
 
 class OnlineFineTuner(Callback):
     def __init__(
