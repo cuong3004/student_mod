@@ -51,7 +51,7 @@ class CelebADataset(Dataset):
         img_path = os.path.join(self.root_dir, self.image_names[idx])
         # Load image and convert it to RGB
         img = Image.open(img_path).convert('RGB')
-        img = img.resize((300,300))
+        img = img.resize(max_size=300)
         # Apply transformations to the image
         if self.transform:
             img = self.transform(img)

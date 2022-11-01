@@ -6,7 +6,7 @@ from pytorch_lightning import Trainer
 from student_mod.model import model_student_mod
 from student_mod.dataset import *
 
-encoder_out_dim = 1000
+encoder_out_dim = 384
 
 model = BarlowTwins(
     encoder=model_student_mod,
