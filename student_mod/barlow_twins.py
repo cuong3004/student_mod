@@ -1,7 +1,28 @@
 import torch
-from pytorch_lightning import LightningModule
+from pytorch_lightning import LightningModule, Callback
+import pytorch_lightning as pl
+import torch.nn.functional as F
+from typing import Sequence, Tuple, Union
+import torch.nn as nn
+from functools import partial
+from student_mod.loss import BarlowTwinsLoss
+from torch import Tensor
+from torchmetrics.functional import accuracy
 
 
+class ProjectionHead(nn.Module):
+    def __init__(self, input_dim=2048, hidden_dim=2048, output_dim=128):
+        super().__init__()
+
+        self.projection_head = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim, bias=True),
+            nn.BatchNorm1d(hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, output_dim, bias=False),
+        )
+
+    def forward(self, x):
+        return self.projection_head(x)
 
 def fn(warmup_steps, step):
     if step < warmup_steps:

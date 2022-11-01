@@ -11,22 +11,22 @@ from PIL import Image
 
 
 
-collate_fn = lightly.data.SimCLRCollateFunction(
-    input_size=img_size
-)
+# collate_fn = lightly.data.SimCLRCollateFunction(
+#     input_size=img_size
+# )
 
-dataset_train_moco = lightly.data.LightlyDataset(
-    input_dir=path_to_train,
-)
+# dataset_train_moco = lightly.data.LightlyDataset(
+#     input_dir=path_to_train,
+# )
 
-dataloader_train_moco = torch.utils.data.DataLoader(
-    dataset_train_moco,
-    batch_size=batch_size,
-    shuffle=True,
-    collate_fn=collate_fn,
-    drop_last=True,
-    num_workers=num_workers
-)
+# dataloader_train_moco = torch.utils.data.DataLoader(
+#     dataset_train_moco,
+#     batch_size=batch_size,
+#     shuffle=True,
+#     collate_fn=collate_fn,
+#     drop_last=True,
+#     num_workers=num_workers
+# )
 
 
 class CelebADataset(Dataset):
@@ -68,13 +68,13 @@ def normalization():
 train_transform = BarlowTwinsTransform(
     train=True, input_height=32, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
 )
-train_dataset = CelebADataset(root="data/CelebA/img_align_celeba", train=True, download=True, transform=train_transform)
+train_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", transform=train_transform)
 
-val_transform = BarlowTwinsTransform(
-    train=False, input_height=32, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
-)
+# val_transform = BarlowTwinsTransform(
+#     train=False, input_height=32, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
+# )
 
-val_dataset = CelebADataset(root="data/CelebA/img_align_celeba", train=False, download=True, transform=train_transform)
+# val_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", train=False, download=True, transform=train_transform)
 
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, drop_last=True)
-val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, drop_last=True)
+# val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, drop_last=True)
