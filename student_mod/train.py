@@ -102,4 +102,4 @@ else:
 #                 checkpoint_callback
 #             ],
 # )
-# trainer.fit(model, train_loader, val_loader)
+trainer.fit(model, train_loader)
