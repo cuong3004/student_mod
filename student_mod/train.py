@@ -6,7 +6,7 @@ from pytorch_lightning import Trainer
 from student_mod.model import model_student_mod
 from student_mod.dataset import *
 
-encoder_out_dim = 512
+encoder_out_dim = 1000
 
 model = BarlowTwins(
     encoder=model_student_mod,
@@ -28,3 +28,4 @@ model = BarlowTwins(
 #                 checkpoint_callback
 #             ],
 # )
+# trainer.fit(model, train_loader, val_loader)
