@@ -22,6 +22,7 @@ model = BarlowTwins(
 # trainer = Trainer(
 #     max_epochs=max_epochs,
 #     accelerator="auto",
+#     precision=16,
 #     devices=1 if torch.cuda.is_available() else None,  # limiting got iPython runs
 #     callbacks=[
 #                 # online_finetuner, 
