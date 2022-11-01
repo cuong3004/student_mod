@@ -18,9 +18,9 @@ class Identity(nn.Module):
 # model_ghost = ghostnet()
 
 model_student_mod = MobileViT(opts)
-model_student_mod.fc = Identity()
+model_student_mod.classifier.fc = Identity()
 
-# print(model_student_mod)
+print(model_student_mod)
 
 # model_ghost_git.layer_1 = nn.Sequential(
 #         *list(model_ghost.blocks.children())[:-5],

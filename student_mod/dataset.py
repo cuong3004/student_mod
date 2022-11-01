@@ -8,7 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 import os
 from natsort import natsorted
 from PIL import Image
-
+from PIL.Image import Resampling
 
 
 # collate_fn = lightly.data.SimCLRCollateFunction(
@@ -51,7 +51,7 @@ class CelebADataset(Dataset):
         img_path = os.path.join(self.root_dir, self.image_names[idx])
         # Load image and convert it to RGB
         img = Image.open(img_path).convert('RGB')
-        img = img.resize(max_size=300)
+        img = img.thumbnail((300, 300), Resampling.LANCZOS)
         # Apply transformations to the image
         if self.transform:
             img = self.transform(img)
