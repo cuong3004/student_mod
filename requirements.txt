@@ -1,4 +1,4 @@
-pytorch-lighitning
+pytorch-lightning
 gdown
 unzip
 wandb

@@ -1,3 +1,5 @@
+from stude
+
 encoder_out_dim = 512
 
 model = BarlowTwins(
