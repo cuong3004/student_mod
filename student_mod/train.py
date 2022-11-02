@@ -27,7 +27,7 @@ print(args)
 print("-"*10)
 
 lr_monitor = LearningRateMonitor(logging_interval='step')
-checkpoint_callback = ModelCheckpoint(monitor="train_loss_ssl", mode="min")
+checkpoint_callback = ModelCheckpoint(monitor="train_loss", mode="min")
 
 if args.path_resume:
 
@@ -74,7 +74,7 @@ else:
 
 
     wandb_logger = WandbLogger(project="Student_mod", name="mobilevit", log_model="all")
-    checkpoint_callback = ModelCheckpoint(monitor="train_loss_ssl", mode="min")
+    # checkpoint_callback = ModelCheckpoint(monitor="train_loss_ssl", mode="min")
     model = model = BarlowTwins(
         # encoder=model_student_mod,
         encoder_out_dim=encoder_out_dim,

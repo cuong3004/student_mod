@@ -90,7 +90,8 @@ class BarlowTwins(LightningModule):
             'name': 'my_learning_rate',
         }
 
-        return [optimizer], [lr_scheduler]
+        # return [optimizer], [lr_scheduler]
+        return optimizer
 
 class OnlineFineTuner(Callback):
     def __init__(

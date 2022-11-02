@@ -7,10 +7,10 @@ img_size = 224
 seed = 1
 # max_epochs = 300
 
-batch_size = 32
-num_workers = 0  # to run notebook on CPU
+batch_size = 64
+num_workers = 2  # to run notebook on CPU
 max_epochs = 200
-z_dim = 128
+z_dim = 256
 
 data_dir_train = "data/CelebA/img_align_celeba"
 # path_to_train = "frame_video_sau"
