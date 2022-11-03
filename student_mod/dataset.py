@@ -70,7 +70,17 @@ train_transform = BarlowTwinsTransform(
     train=True, input_height=224, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
 )
 
+train_transform_finetune = transforms.Compose(
+                [
+                    transforms.RandomCrop(224, padding=4, padding_mode="reflect"),
+                    transforms.RandomHorizontalFlip(),
+                    transforms.ToTensor(),
+                ]
+            )
+
 train_dataset = CelebADataset(root_dir=data_dir_train, transform=train_transform)
+train_dataset_fine = CelebADataset(root_dir=data_dir_train, transform=train_transform)
+
 
 # val_transform = BarlowTwinsTransform(
 #     train=False, input_height=32, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
