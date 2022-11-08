@@ -2,6 +2,8 @@ from student_mod.config import *
 from cvnets.models.classification.mobilevit import MobileViT
 import torch 
 import torch.nn as nn
+from cvnets.modules import InvertedResidual
+from cvnets.layers import ConvLayer
 # from ghostpes.ghostnet import ghostnet, module_ghost_1, module_ghost_2
 
 
@@ -19,8 +21,20 @@ class Identity(nn.Module):
 
 model_student_mod = MobileViT(opts)
 model_student_mod.classifier.fc = Identity()
+model_student_mod.conv_1 = ConvLayer(
+            opts=opts,
+            in_channels=3,
+            out_channels=16,
+            kernel_size=3,
+            stride=1,
+            use_norm=True,
+            use_act=True,
+        )
+#  = ConvLayer(3, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False, normalization=BatchNorm2d, activation=Swish, bias=False)
 
-# print(model_student_mod)
+model_student_mod.layer_2[0] = InvertedResidual(in_channels=32, out_channels=48, stride=1, exp=4, dilation=1, skip_conn=False)
+
+print(model_student_mod)
 
 # model_ghost_git.layer_1 = nn.Sequential(
 #         *list(model_ghost.blocks.children())[:-5],

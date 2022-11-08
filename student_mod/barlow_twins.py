@@ -64,7 +64,7 @@ class BarlowTwins(LightningModule):
         return self.encoder(x)
 
     def shared_step(self, batch):
-        (x1, x2, _) = batch
+        x1, x2 = batch
 
         z1 = self.projection_head(self.encoder(x1))
         z2 = self.projection_head(self.encoder(x2))
