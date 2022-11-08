@@ -26,6 +26,7 @@ print("-"*10)
 print(args)
 print("-"*10)
 
+online_finetuner = OnlineFineTuner(encoder_output_dim=encoder_out_dim, num_classes=10)
 lr_monitor = LearningRateMonitor(logging_interval='step')
 checkpoint_callback = ModelCheckpoint(monitor="train_loss", mode="min")
 

@@ -54,4 +54,4 @@ class BarlowTwinsTransform:
             self.finetune_transform = transforms.ToTensor()
 
     def __call__(self, sample):
-        return self.transform(sample), self.transform(sample), self.finetune_transform(sample)
+        return self.transform(sample), self.transform(sample)

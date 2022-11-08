@@ -12,7 +12,13 @@ num_workers = 2  # to run notebook on CPU
 max_epochs = 200
 z_dim = 256
 
-data_dir_train = "data/CelebA/img_align_celeba"
+data_dir_train = "data_celeba_processing"
+data_dir_fine_x_train = "fdataX_train.npy"
+data_dir_fine_y_train = "flabels_train.npy"
+data_dir_fine_x_valid = "fdataX_valid.npy"
+data_dir_fine_y_valid = "flabels_valid.npy"
+data_dir_fine_x_test = "fdataX_test.npy"
+data_dir_fine_y_test = "flabels_test.npy"
 # path_to_train = "frame_video_sau"
 
 
