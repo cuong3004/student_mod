@@ -1,7 +1,7 @@
 import argparse
 
 num_workers = 2
-img_size = 224
+img_size = 64
 # batch_size = 192
 # memory_bank_size = 2048
 seed = 1
