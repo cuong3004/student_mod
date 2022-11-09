@@ -7,10 +7,10 @@ img_size = 64
 seed = 1
 # max_epochs = 300
 
-batch_size = 64
+batch_size = 192
 num_workers = 2  # to run notebook on CPU
 max_epochs = 200
-z_dim = 256
+z_dim = 2048
 
 data_dir_train = "data_celeba_processing"
 data_dir_fine_x_train = "fdataX_train.npy"

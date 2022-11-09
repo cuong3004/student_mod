@@ -35,7 +35,7 @@ model_student_mod.conv_1 = ConvLayer(
 model_student_mod.layer_2[0] = InvertedResidual(opts, in_channels=32, out_channels=48, stride=1, expand_ratio=4, dilation=1, skip_conn=False)
 
 
-print(model_student_mod(torch.ones((2,3,224,224))))
+# print(model_student_mod(torch.ones((2,3,224,224))))
 
 # model_ghost_git.layer_1 = nn.Sequential(
 #         *list(model_ghost.blocks.children())[:-5],
