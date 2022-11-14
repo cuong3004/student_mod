@@ -7,7 +7,7 @@ img_size = 64
 seed = 1
 # max_epochs = 300
 
-batch_size = 192
+batch_size = 156
 num_workers = 2  # to run notebook on CPU
 max_epochs = 200
 z_dim = 2048
