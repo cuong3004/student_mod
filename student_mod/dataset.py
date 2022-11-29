@@ -149,27 +149,29 @@ valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, n
 # )
 
 # val_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", train=False, download=True, transform=train_transform)
-x_data_train = np.load(data_dir_fine_x_train)
-y_data_train = np.load(data_dir_fine_y_train)
+# x_data_train = np.load(data_dir_fine_x_train)
+# y_data_train = np.load(data_dir_fine_y_train)
 
-x_data_valid = np.load(data_dir_fine_x_valid)
-y_data_valid = np.load(data_dir_fine_y_valid)
+# x_data_valid = np.load(data_dir_fine_x_valid)
+# y_data_valid = np.load(data_dir_fine_y_valid)
 
-x_data_test = np.load(data_dir_fine_x_test)
-y_data_test = np.load(data_dir_fine_y_test)
+# x_data_test = np.load(data_dir_fine_x_test)
+# y_data_test = np.load(data_dir_fine_y_test)
 
-train_dataset_fine = StudentDataset(x_data_train, y_data_train, transform=train_transform_finetune)
-valid_dataset_fine = StudentDataset(x_data_valid, y_data_valid, transform=valid_transform_finetune)
-test_dataset_fine = StudentDataset(x_data_test, y_data_test, transform=valid_transform_finetune)
-
-# train_dataset_fine = datasets.ImageFolder(root=data_dir_fine_train, transform=train_transform_finetune)
-# valid_dataset_fine = datasets.ImageFolder(root=data_dir_fine_valid, transform=valid_transform_finetune)
+######
+# train_dataset_fine = StudentDataset(x_data_train, y_data_train, transform=train_transform_finetune)
+# valid_dataset_fine = StudentDataset(x_data_valid, y_data_valid, transform=valid_transform_finetune)
+# test_dataset_fine = StudentDataset(x_data_test, y_data_test, transform=valid_transform_finetune)
 
 # train_dataset_fine = datasets.ImageFolder(root=data_dir_fine_train, transform=train_transform_finetune)
 # valid_dataset_fine = datasets.ImageFolder(root=data_dir_fine_valid, transform=valid_transform_finetune)
 
-train_fine_loader = DataLoader(train_dataset_fine, batch_size=32, shuffle=True, num_workers=num_workers, drop_last=True)
-valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
-valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
+# train_dataset_fine = datasets.ImageFolder(root=data_dir_fine_train, transform=train_transform_finetune)
+# valid_dataset_fine = datasets.ImageFolder(root=data_dir_fine_valid, transform=valid_transform_finetune)
 
-dm = CelebAStudentDataModule(train_loader, valid_loader, train_fine_loader, valid_fine_loader)
+#####
+# train_fine_loader = DataLoader(train_dataset_fine, batch_size=32, shuffle=True, num_workers=num_workers, drop_last=True)
+# valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
+# valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
+
+# dm = CelebAStudentDataModule(train_loader, valid_loader, train_fine_loader, valid_fine_loader)
