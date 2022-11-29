@@ -118,19 +118,19 @@ train_transform = BarlowTwinsTransform(
 )
 
 
-train_transform_finetune = transforms.Compose(
-                [   
-                    transforms.Resize((64,64)),
-                    transforms.RandomHorizontalFlip(),
-                    transforms.ToTensor(),
-                ]
-            )
-valid_transform_finetune = transforms.Compose(
-                [   
-                    transforms.Resize((64,64)),
-                    transforms.ToTensor(),
-                ]
-            )
+# train_transform_finetune = transforms.Compose(
+#                 [   
+#                     transforms.Resize((64,64)),
+#                     transforms.RandomHorizontalFlip(),
+#                     transforms.ToTensor(),
+#                 ]
+#             )
+# valid_transform_finetune = transforms.Compose(
+#                 [   
+#                     transforms.Resize((64,64)),
+#                     transforms.ToTensor(),
+#                 ]
+#             )
 
 train_dataset = CelebADataset(root_dir=data_dir_train, transform=train_transform)
 train_len = int(len(train_dataset)*0.9)

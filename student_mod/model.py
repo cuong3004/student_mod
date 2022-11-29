@@ -48,3 +48,5 @@ model_student_mod.layer_2[0] = InvertedResidual(opts, in_channels=32, out_channe
 
 
 # print(model_ghost_git(torch.ones((2,3,224,224))).shape)
+
+print(model_student_mod)
