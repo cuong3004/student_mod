@@ -49,3 +49,13 @@ def grayScale(x):
 train_transform = BarlowTwinsTransform(
     train=True, input_height=64, gaussian_blur=False, jitter_strength=0.5, normalize=normalization()
 )
+
+train_dataset = CelebADataset(root_dir=data_dir_train, transform=train_transform)
+train_len = int(len(train_dataset)*0.9)
+valid_len = len(train_dataset) - train_len
+train_dataset, valid_dataset = torch.utils.data.random_split(train_dataset, [train_len, valid_len], generator=torch.Generator().manual_seed(42))
+
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, drop_last=True)
+valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, drop_last=True)
+
+

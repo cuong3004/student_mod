@@ -4,7 +4,7 @@ from student_mod.config import *
 import torch 
 from pytorch_lightning import Trainer
 from student_mod.model import model_student_mod
-from student_mod.dataset import *
+from student_mod.dataset_v2 import *
 import argparse
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.callbacks import LearningRateMonitor
@@ -52,7 +52,7 @@ if args.path_resume:
     model = BarlowTwins.load_from_checkpoint(path_checkpoint)
     trainer = Trainer.from_argparse_args(args, max_epochs=max_epochs,
                         accelerator="auto",
-                        devices=1 if torch.cuda.is_available() else None,
+                        devices='auto' if torch.cuda.is_available() else None,
                         #  default_root_dir="/content/drive/MyDrive/log_moco_sau",
                         resume_from_checkpoint=path_checkpoint,
                         #  limit_train_batches=20,
@@ -87,7 +87,7 @@ else:
     # model = MocoModel.load_from_checkpoint(path_checkpoint)
     trainer = Trainer.from_argparse_args(args, max_epochs=max_epochs,
                         accelerator="auto",
-                        devices=1 if torch.cuda.is_available() else None,
+                        devices='auto' if torch.cuda.is_available() else None,
                         #  default_root_dir="/content/drive/MyDrive/log_moco_sau",
                         #  resume_from_checkpoint=path_checkpoint,
                         #  limit_train_batches=20,

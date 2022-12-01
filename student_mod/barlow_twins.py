@@ -93,7 +93,7 @@ class BarlowTwins(LightningModule):
         # return [optimizer], [lr_scheduler]
         return optimizer
 
-class OnlineFineTuner(Callback):
+# class OnlineFineTuner(Callback):
     def __init__(
         self,
         encoder_output_dim: int,
