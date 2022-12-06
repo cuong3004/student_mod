@@ -3,3 +3,4 @@ gdown
 unzip
 wandb
 natsort
+lightly
