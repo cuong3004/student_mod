@@ -8,7 +8,7 @@ from functools import partial
 from student_mod.loss import BarlowTwinsLoss
 from torch import Tensor
 from torchmetrics.functional import accuracy
-from student_mod.model import model_student_mod
+from student_mod.model import get_mobile_vit
 
 
 class ProjectionHead(nn.Module):
@@ -49,7 +49,7 @@ class BarlowTwins(LightningModule):
     ):
         super().__init__()
 
-        self.encoder = model_student_mod
+        self.encoder = get_mobile_vit()
         self.projection_head = ProjectionHead(input_dim=encoder_out_dim, hidden_dim=encoder_out_dim, output_dim=z_dim)
         self.loss_fn = BarlowTwinsLoss(batch_size=batch_size, lambda_coeff=lambda_coeff, z_dim=z_dim)
 
@@ -89,81 +89,4 @@ class BarlowTwins(LightningModule):
             'name': 'my_learning_rate',
         }
 
-        # return [optimizer], [lr_scheduler]
         return optimizer
-
-# class OnlineFineTuner(Callback):
-    # def __init__(
-    #     self,
-    #     encoder_output_dim: int,
-    #     num_classes: int,
-    # ) -> None:
-    #     super().__init__()
-
-    #     self.optimizer: torch.optim.Optimizer
-
-    #     self.encoder_output_dim = encoder_output_dim
-    #     self.num_classes = num_classes
-
-    # def on_fit_start(self, trainer: pl.Trainer, pl_module: pl.LightningModule) -> None:
-
-    #     # add linear_eval layer and optimizer
-    #     pl_module.online_finetuner = nn.Linear(self.encoder_output_dim, self.num_classes).to(pl_module.device)
-    #     self.optimizer = torch.optim.Adam(pl_module.online_finetuner.parameters(), lr=1e-4)
-
-    # def extract_online_finetuning_view(
-    #     self, batch: Sequence, device: Union[str, torch.device]
-    # ) -> Tuple[Tensor, Tensor]:
-    #     (_, _, finetune_view), y = batch
-    #     finetune_view = finetune_view.to(device)
-    #     y = y.to(device)
-
-    #     return finetune_view, y
-
-    # def on_train_batch_end(
-    #     self,
-    #     trainer: pl.Trainer,
-    #     pl_module: pl.LightningModule,
-    #     outputs: Sequence,
-    #     batch: Sequence,
-    #     batch_idx: int,
-    #     dataloader_idx: int,
-    # ) -> None:
-    #     x, y = self.extract_online_finetuning_view(batch, pl_module.device)
-
-    #     with torch.no_grad():
-    #         feats = pl_module(x)
-
-    #     feats = feats.detach()
-    #     preds = pl_module.online_finetuner(feats)
-    #     loss = F.cross_entropy(preds, y)
-
-    #     loss.backward()
-    #     self.optimizer.step()
-    #     self.optimizer.zero_grad()
-
-    #     acc = accuracy(F.softmax(preds, dim=1), y)
-    #     pl_module.log("online_train_acc", acc, on_step=True, on_epoch=False)
-    #     pl_module.log("online_train_loss", loss, on_step=True, on_epoch=False)
-
-    # def on_validation_batch_end(
-    #     self,
-    #     trainer: pl.Trainer,
-    #     pl_module: pl.LightningModule,
-    #     outputs: Sequence,
-    #     batch: Sequence,
-    #     batch_idx: int,
-    #     dataloader_idx: int,
-    # ) -> None:
-    #     x, y = self.extract_online_finetuning_view(batch, pl_module.device)
-
-    #     with torch.no_grad():
-    #         feats = pl_module(x)
-
-    #     feats = feats.detach()
-    #     preds = pl_module.online_finetuner(feats)
-    #     loss = F.cross_entropy(preds, y)
-
-    #     acc = accuracy(F.softmax(preds, dim=1), y)
-    #     pl_module.log("online_val_acc", acc, on_step=False, on_epoch=True, sync_dist=True)
-    #     pl_module.log("online_val_loss", loss, on_step=False, on_epoch=True, sync_dist=True)

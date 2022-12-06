@@ -20,6 +20,7 @@ class Identity(nn.Module):
 # model_ghost = ghostnet()
 def get_mobile_vit(pretrained=False):
     model = MobileViT(opts)
+    
     if pretrained:
         model.load_state_dict(torch.load("mobilevit_xs.pt"))
         
@@ -54,4 +55,4 @@ def get_mobile_vit(pretrained=False):
 
 # print(model_ghost_git(torch.ones((2,3,224,224))).shape)
 
-print(model_student_mod)
+# print(model_student_mod)

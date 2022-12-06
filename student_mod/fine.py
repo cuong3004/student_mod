@@ -58,12 +58,13 @@ class StudentDataset():
 
     def __getitem__(self, idx):
         img_np = self.x_data[idx]
+        label_np = self.y_data[idx]
         img = Image.fromarray(img_np).convert('L').convert('RGB')
   
         if self.transform:
             img = self.transform(img)
 
-        return img
+        return img, label_np
 
 
 
