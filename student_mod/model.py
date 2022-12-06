@@ -18,22 +18,27 @@ class Identity(nn.Module):
         return x
 
 # model_ghost = ghostnet()
+def get_mobile_vit(pretrained=False):
+    model = MobileViT(opts)
+    if pretrained:
+        model.load_state_dict(torch.load("mobilevit_xs.pt"))
+        
+    model.classifier.fc = Identity()
+    model.conv_1 = ConvLayer(
+                opts=opts,
+                in_channels=3,
+                out_channels=16,
+                kernel_size=3,
+                stride=1,
+                use_norm=True,
+                use_act=True,
+            )
+    #  = ConvLayer(3, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False, normalization=BatchNorm2d, activation=Swish, bias=False)
 
-model_student_mod = MobileViT(opts)
-model_student_mod.classifier.fc = Identity()
-model_student_mod.conv_1 = ConvLayer(
-            opts=opts,
-            in_channels=3,
-            out_channels=16,
-            kernel_size=3,
-            stride=1,
-            use_norm=True,
-            use_act=True,
-        )
-#  = ConvLayer(3, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False, normalization=BatchNorm2d, activation=Swish, bias=False)
+    model.layer_2[0] = InvertedResidual(opts, in_channels=32, out_channels=48, stride=1, expand_ratio=4, dilation=1, skip_conn=False)
 
-model_student_mod.layer_2[0] = InvertedResidual(opts, in_channels=32, out_channels=48, stride=1, expand_ratio=4, dilation=1, skip_conn=False)
-
+    
+    return model
 
 # print(model_student_mod(torch.ones((2,3,224,224))))
 
