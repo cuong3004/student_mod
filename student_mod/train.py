@@ -3,7 +3,7 @@ from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
 from student_mod.config import *
 import torch 
 from pytorch_lightning import Trainer
-from student_mod.model import model_student_mod
+# from student_mod.model import model_student_mod
 from student_mod.dataset_v2 import *
 import argparse
 from pytorch_lightning.loggers import WandbLogger
