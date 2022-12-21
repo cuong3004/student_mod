@@ -92,7 +92,7 @@ train_transform_finetune = transforms.Compose(
                 [   
                     transforms.Resize((64,64)),
                     transforms.RandomHorizontalFlip(),
-                    transforms.Blur(),
+                    transforms.GaussianBlur(2),
                     transforms.ToTensor(),
                 ]
             )
