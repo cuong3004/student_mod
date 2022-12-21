@@ -50,13 +50,6 @@ class CelebAStudentDataModule(pl.LightningDataModule):
     def val_dataloader(self):
         return [self.data_valid_loader, self.data_valid_fine_loader]
 
-    # def test_dataloader(self):
-    #     return DataLoader(self.test_dataset)
-
-    # def predict_dataloader(self):
-    #     return DataLoader(self.predict_dataset)
-
-
 class CelebADataset(Dataset):
     def __init__(self, root_dir, transform=None):
         image_names = os.listdir(root_dir)
@@ -79,13 +72,9 @@ class CelebADataset(Dataset):
 
 class StudentDataset(Dataset):
     def __init__(self, x_data, y_data, transform=None):
-        # image_names = os.listdir(root_dir)
-
-        # self.root_dir = root_dir
         self.x_data = x_data 
         self.y_data = y_data
         self.transform = transform 
-        # self.image_names = natsorted(image_names)
 
     def __len__(self): 
         return len(self.x_data)
@@ -94,7 +83,6 @@ class StudentDataset(Dataset):
         # img_path = os.path.join(self.root_dir, self.image_names[idx])
         img_np = self.x_data[idx]
         img = Image.fromarray(img_np).convert('L').convert('RGB')
-  
         if self.transform:
             img = self.transform(img)
 
@@ -118,19 +106,20 @@ train_transform = BarlowTwinsTransform(
 )
 
 
-# train_transform_finetune = transforms.Compose(
-#                 [   
-#                     transforms.Resize((64,64)),
-#                     transforms.RandomHorizontalFlip(),
-#                     transforms.ToTensor(),
-#                 ]
-#             )
-# valid_transform_finetune = transforms.Compose(
-#                 [   
-#                     transforms.Resize((64,64)),
-#                     transforms.ToTensor(),
-#                 ]
-#             )
+train_transform_finetune = transforms.Compose(
+                [   
+                    transforms.Resize((64,64)),
+                    transforms.RandomHorizontalFlip(),
+                    transforms.Blur(),
+                    transforms.ToTensor(),
+                ]
+            )
+valid_transform_finetune = transforms.Compose(
+                [   
+                    transforms.Resize((64,64)),
+                    transforms.ToTensor(),
+                ]
+            )
 
 train_dataset = CelebADataset(root_dir=data_dir_train, transform=train_transform)
 train_len = int(len(train_dataset)*0.9)
@@ -149,14 +138,14 @@ valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, n
 # )
 
 # val_dataset = CelebADataset(root_dir="data/CelebA/img_align_celeba", train=False, download=True, transform=train_transform)
-# x_data_train = np.load(data_dir_fine_x_train)
-# y_data_train = np.load(data_dir_fine_y_train)
+x_data_train = np.load(data_dir_fine_x_train)
+y_data_train = np.load(data_dir_fine_y_train)
 
-# x_data_valid = np.load(data_dir_fine_x_valid)
-# y_data_valid = np.load(data_dir_fine_y_valid)
+x_data_valid = np.load(data_dir_fine_x_valid)
+y_data_valid = np.load(data_dir_fine_y_valid)
 
-# x_data_test = np.load(data_dir_fine_x_test)
-# y_data_test = np.load(data_dir_fine_y_test)
+x_data_test = np.load(data_dir_fine_x_test)
+y_data_test = np.load(data_dir_fine_y_test)
 
 ######
 # train_dataset_fine = StudentDataset(x_data_train, y_data_train, transform=train_transform_finetune)
