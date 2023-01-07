@@ -16,13 +16,13 @@ import numpy as np
 class CelebAStudentDataModule(pl.LightningDataModule):
     def __init__(self, 
         data_train_loader,
-        data_valid_loader,
+        # data_valid_loader,
         data_train_fine_loader,
         data_valid_fine_loader,
         ) -> None:
         super().__init__()
         self.data_train_loader = data_train_loader
-        self.data_valid_loader = data_valid_loader
+        # self.data_valid_loader = data_valid_loader
         self.data_train_fine_loader = data_train_fine_loader
         self.data_valid_fine_loader = data_valid_fine_loader
 
@@ -30,7 +30,7 @@ class CelebAStudentDataModule(pl.LightningDataModule):
         return [self.data_train_loader, self.data_train_fine_loader]
 
     def val_dataloader(self):
-        return [self.data_valid_loader, self.data_valid_fine_loader]
+        return self.data_valid_fine_loader
 
 class CelebADataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -64,11 +64,12 @@ class StudentDataset(Dataset):
     def __getitem__(self, idx):
         # img_path = os.path.join(self.root_dir, self.image_names[idx])
         img_np = self.x_data[idx]
+        label = self.y_data[idx]
         img = Image.fromarray(img_np).convert('L').convert('RGB')
         if self.transform:
             img = self.transform(img)
 
-        return img
+        return img, label
 
 
 def normalization():
@@ -92,7 +93,6 @@ train_transform_finetune = transforms.Compose(
                 [   
                     transforms.Resize((64,64)),
                     transforms.RandomHorizontalFlip(),
-                    transforms.GaussianBlur(2),
                     transforms.ToTensor(),
                 ]
             )
@@ -104,13 +104,13 @@ valid_transform_finetune = transforms.Compose(
             )
 
 train_dataset = CelebADataset(root_dir=data_dir_train, transform=train_transform)
-train_len = int(len(train_dataset)*0.9)
-valid_len = len(train_dataset) - train_len
-train_dataset, valid_dataset = torch.utils.data.random_split(train_dataset, [train_len, valid_len], generator=torch.Generator().manual_seed(42))
+# train_len = int(len(train_dataset)*0.9)
+# valid_len = len(train_dataset) - train_len
+# train_dataset, valid_dataset = torch.utils.data.random_split(train_dataset, [train_len, valid_len], generator=torch.Generator().manual_seed(42))
 
 
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, drop_last=True)
-valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, drop_last=True)
+# valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, drop_last=True)
 
 
 
@@ -130,9 +130,9 @@ x_data_test = np.load(data_dir_fine_x_test)
 y_data_test = np.load(data_dir_fine_y_test)
 
 ######
-# train_dataset_fine = StudentDataset(x_data_train, y_data_train, transform=train_transform_finetune)
-# valid_dataset_fine = StudentDataset(x_data_valid, y_data_valid, transform=valid_transform_finetune)
-# test_dataset_fine = StudentDataset(x_data_test, y_data_test, transform=valid_transform_finetune)
+train_dataset_fine = StudentDataset(x_data_train, y_data_train, transform=train_transform_finetune)
+valid_dataset_fine = StudentDataset(x_data_valid, y_data_valid, transform=valid_transform_finetune)
+test_dataset_fine = StudentDataset(x_data_test, y_data_test, transform=valid_transform_finetune)
 
 # train_dataset_fine = datasets.ImageFolder(root=data_dir_fine_train, transform=train_transform_finetune)
 # valid_dataset_fine = datasets.ImageFolder(root=data_dir_fine_valid, transform=valid_transform_finetune)
@@ -141,8 +141,9 @@ y_data_test = np.load(data_dir_fine_y_test)
 # valid_dataset_fine = datasets.ImageFolder(root=data_dir_fine_valid, transform=valid_transform_finetune)
 
 #####
-# train_fine_loader = DataLoader(train_dataset_fine, batch_size=32, shuffle=True, num_workers=num_workers, drop_last=True)
-# valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
-# valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
+train_fine_loader = DataLoader(train_dataset_fine, batch_size=32, shuffle=True, num_workers=num_workers, drop_last=True)
+valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
+valid_fine_loader = DataLoader(valid_dataset_fine, batch_size=32, shuffle=False, num_workers=num_workers, drop_last=True)
 
-# dm = CelebAStudentDataModule(train_loader, valid_loader, train_fine_loader, valid_fine_loader)
+dm = CelebAStudentDataModule(train_loader, train_fine_loader, valid_fine_loader)
+
