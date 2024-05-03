@@ -1,0 +1,17 @@
+Edge TPU Compiler version 16.0.384591198
+Input: /content/drive/MyDrive/logging/eyes_yolov5pt/exp2/weights/best-int8.tflite
+Output: /content/drive/MyDrive/logging/eyes_yolov5pt/exp2/weights/best-int8_edgetpu.tflite
+
+Operator                       Count      Status
+
+MUL                            69         Mapped to Edge TPU
+QUANTIZE                       6          Mapped to Edge TPU
+CONV_2D                        54         Mapped to Edge TPU
+RESIZE_NEAREST_NEIGHBOR        2          Mapped to Edge TPU
+RESHAPE                        6          Mapped to Edge TPU
+STRIDED_SLICE                  13         Mapped to Edge TPU
+CONCATENATION                  18         Mapped to Edge TPU
+PAD                            6          Mapped to Edge TPU
+LOGISTIC                       60         Mapped to Edge TPU
+ADD                            6          Mapped to Edge TPU
+MAX_POOL_2D                    3          Mapped to Edge TPU
